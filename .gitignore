@@ -11,3 +11,5 @@ model/**
 *.onnx
 *.engine
 .cache/**
+__pycache__/
+*.pyc
