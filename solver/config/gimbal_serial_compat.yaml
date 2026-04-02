@@ -1,0 +1,8 @@
+gimbal_serial_compat:
+  ros__parameters:
+    port: "/dev/ttyUSB0"
+    baud: 115200
+    tx_topic: "solver/gimbal_cmd"
+    rx_topic: "serial/receive"
+    yaw_sign: 1.0
+    pitch_sign: 1.0

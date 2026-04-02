@@ -1,0 +1,63 @@
+/**:
+  ros__parameters:
+    detector:
+      mode: "tracker"           # tracker / yolo / hybrid
+      backend: "opencv"         # tensorrt / opencv
+      yolo:
+        model_path: ""
+        engine_path: ""
+        input_w: 640
+        input_h: 640
+        conf_thres: 0.40
+        nms_thres: 0.45
+        layout: "auto"
+        target_class_id: -1
+        max_det: 20
+        detect_interval: 2
+        single_target_mode: false
+        class_color_gate:
+          enabled: true
+          red_class_id: 1
+          blue_class_id: 0
+      selector:
+        min_area_px: 120.0
+        max_area_ratio: 0.75
+        w_conf: 0.55
+        w_iou: 0.20
+        w_center: 0.20
+        w_size: 0.05
+
+    serial_bridge:
+      enabled: false
+      tx_topic: "serial/tx_packet"
+
+    use_gui: true
+    tracker_type: "CSRT"    # CSRT or KCF
+    yaw_gain: 0.65
+    pitch_gain: 0.65
+    yaw_sign: 1.0
+    pitch_sign: -1.0
+    hit_window_ratio_x: 0.05
+    hit_window_ratio_y: 0.05
+    auto_reselect: true
+    use_serial_feedback: false
+    init_yaw_deg: 0.0
+    init_pitch_deg: 0.0
+    publish_debug_window: true
+
+    color_filter:
+      enabled: true
+      self_color: "red"        # red / blue
+      enemy_color: "auto"      # auto / red / blue
+      min_enemy_color_ratio: 0.03
+
+    distance_gate:
+      enabled: true
+      min_m: 10.0
+      max_m: 25.0
+      target_height_m: 0.12
+
+    laser_comp:
+      enabled: true
+      offset_right_m: 0.0
+      offset_up_m: 0.05

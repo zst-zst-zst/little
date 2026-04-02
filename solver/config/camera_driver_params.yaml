@@ -1,0 +1,15 @@
+/**:
+  ros__parameters:
+    camera_info_url: package://solver/config/camera_info.yaml
+    frame_rate: 80
+    auto_exposure: 0
+    auto_gain: 0
+    exposure_time: 12000
+    gain: 14.0
+    auto_white_balance: 1
+    resolution_width: 1280
+    resolution_height: 1024
+    offsetX: 0
+    offsetY: 0
+    camera_name: "daheng"
+    recording: false

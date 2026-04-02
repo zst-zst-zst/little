@@ -1,0 +1,11 @@
+std_msgs/Header header
+bool laser_power_on
+bool laser_hit_valid
+bool target_tracking
+float64 aimed_progress
+uint8 lock_count
+bool lock_active
+float64 lock_remaining
+uint8 progress_stage
+float64 target_distance
+string target_id

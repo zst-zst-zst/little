@@ -1,0 +1,164 @@
+/**:
+  ros__parameters:
+    detector:
+      mode: "yolo"               # hybrid / yolo / tracker
+      backend: "tensorrt"        # tensorrt / opencv
+      yolo:
+        model_path: "/home/zst/FYT/model/yolo_t.onnx"
+        engine_path: "/home/zst/FYT/model/yolo.engine"
+        input_w: 640
+        input_h: 640
+        conf_thres: 0.02
+        nms_thres: 0.45
+        layout: "auto"          # auto / v5 / v8
+        target_class_id: -1      # -1 means allow all classes, selector picks one target per frame
+        max_det: 50
+        max_targets_for_valid: -1 # <=0 disables this filter
+        allowed_class_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # 放宽类别过滤，先保证有框
+        detect_interval: 1        # 先保底识别稳定
+        single_target_mode: false # 多类别单实例：一帧只选一个目标，但类别不过滤
+        class_color_gate:
+          enabled: false
+          red_class_id: 1         # names: ['blue','red']
+          blue_class_id: 0        # names: ['blue','red']
+        class_lock:
+          enabled: true
+          switch_confirm_frames: 8
+      selector:
+        min_area_px: 3.0
+        max_area_ratio: 0.50
+        w_conf: 0.70
+        w_iou: 0.10
+        w_center: 0.10
+        w_size: 0.05
+        w_distance: 0.25
+
+    # Optional serial bridge output (for external serial driver node)
+    serial_bridge:
+      enabled: true
+      tx_topic: "serial/tx_packet"
+      protocol: "dji_c_v1"     # dji_c_v1 / legacy19
+
+    # Motion prediction for strong realtime follow
+    prediction:
+      enabled: false
+      lead_time_s: 0.06
+      max_lead_px: 60.0
+      center_smooth_alpha: 0.45
+      deadzone_px: 2.5
+      vel_jump_thres_px_s: 180.0
+      confidence_decay: 0.20
+      confidence_recover: 0.06
+      min_confidence: 0.2
+
+    # Keep following for a short time when detector loses target.
+    lost_hold:
+      enabled: true
+      hold_s: 0.80
+
+    # Require stable hit-valid duration before entering score accumulation.
+    score:
+      stability_window_s: 0.18
+
+    # If target mostly moves along one line, suppress orthogonal jitter
+    line_motion:
+      enabled: true
+      axis: "x"                 # x means mostly horizontal motion, y means vertical
+      center_alpha: 0.12
+
+    image_transform:
+      rotate_180: true           # Camera is physically upside down
+
+    # UI / tracker
+    use_gui: true
+    tracker_type: "CSRT"    # CSRT or KCF
+    auto_reselect: true
+    publish_debug_window: true
+
+    # Independent gimbal-head mode:
+    # true: use encoder feedback from serial/receive as current yaw/pitch
+    # false: use init_yaw_deg/init_pitch_deg as open-loop base
+    use_serial_feedback: true
+    init_yaw_deg: 0.0
+    init_pitch_deg: 0.0
+
+    # Core follow control (start from these, then tune on hardware)
+    yaw_gain: 0.65
+    pitch_gain: 0.65
+    yaw_sign: 1.0
+    pitch_sign: -1.0
+
+    # Migrated LaserTracking controller backend (equivalent control module)
+    control:
+      backend: "lasertracking"   # lasertracking / solver
+      kp: 1.2
+      deadband_px: 1.0
+      max_angle_rate: 180.0
+      lowpass_alpha: 0.45
+      yaw_sign: -1.0
+      pitch_sign: -1.0
+      ctrl_dt_nominal_ms: 10.0
+      ctrl_dt_min_ms: 1.0
+      ctrl_dt_max_ms: 100.0
+      use_velocity_ff: true
+      ff_alpha: 0.25
+      ff_rate_max: 150.0
+      ff_dt_max_ms: 80.0
+      use_damping: true
+      damping_source: "meas"
+      damping_kd: 0.02
+      damping_dt_max_ms: 120.0
+      scan_enable: true
+      scan_pattern: "spiral"
+      scan_radius_deg: 12.0
+      scan_rate_hz: 0.2
+      scan_spacing_deg: 6.05
+      scan_speed_deg_s: 25.0
+      scan_r_max_deg: 15.0
+      scan_spiral_return: false
+      scan_k_yaw: 2.5
+      scan_k_pitch: 0.75
+      scan_enter_delay_ms: 180.0
+      scan_reacq_confirm_frames: 2
+      startup_check_frames: 5
+      startup_home_pitch: 0.0
+      startup_home_yaw: 0.0
+      startup_prep_ms: 1000
+      startup_hold_ms: 200
+      startup_home_ms: 600
+      startup_validate_ms: 200
+      startup_min_state_frames: 1
+      startup_require_home: true
+      startup_home_tol_deg: 1.0
+      startup_home_max_extra_ms: 1000
+      startup_validate_first: true
+      startup_allow_early_exit: true
+      boresight:
+        u_l: -1.0      # -1 means auto use camera principal point cx
+        v_l: -1.0      # -1 means auto use camera principal point cy
+
+    # Hit window in image normalized coordinates
+    hit_window_ratio_x: 0.05
+    hit_window_ratio_y: 0.05
+
+    # Enemy color gate
+    color_filter:
+      enabled: false
+      self_color: "red"        # red / blue
+      enemy_color: "auto"      # auto / red / blue
+      min_enemy_color_ratio: 0.03
+
+    # Effective distance gate for 2026 laser rule
+    distance_gate:
+      enabled: true
+      min_m: 2.5
+      max_m: 14.5
+      target_height_m: 0.12
+      preferred_m: 9.5
+      preferred_sigma_m: 2.2
+
+    # Laser-camera rigid mounting compensation (laser above camera -> offset_up_m > 0)
+    laser_comp:
+      enabled: true
+      offset_right_m: 0.0
+      offset_up_m: 0.05

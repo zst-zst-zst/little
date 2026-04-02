@@ -1,0 +1,13 @@
+.vscode/**
+build/**
+install/**
+log/**
+.bak/**
+.venv/**
+.venv-yolo/**
+runs/**
+model/**
+*.pt
+*.onnx
+*.engine
+.cache/**

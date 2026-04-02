@@ -1,0 +1,6 @@
+dji_c_serial_bridge:
+  ros__parameters:
+    port: "/dev/ttyUSB0"
+    baud: 115200
+    tx_topic: "serial/tx_packet"
+    rx_topic: "serial/receive"

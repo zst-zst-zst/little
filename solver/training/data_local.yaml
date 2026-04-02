@@ -1,0 +1,6 @@
+train: /home/zst/Downloads/My First Project.v1i.yolov8/train/images
+val: /home/zst/Downloads/My First Project.v1i.yolov8/valid/images
+test: /home/zst/Downloads/My First Project.v1i.yolov8/test/images
+
+nc: 2
+names: [blue, red]
